@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050711">
+  <title>Tirion Analytics | Live Revenue Forecasting &amp; Profit Reporting</title>
+  <meta name="description" content="Tirion Analytics builds live, interactive apps that create revenue forecasts, report on past profit, and ensure business efficiency.">
+  <meta property="og:title" content="Tirion Analytics">
+  <meta property="og:description" content="Intelligence for the modern company. Know what you earn. Staff with confidence.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body data-theme="blue" data-veil="0.25">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="scene" aria-hidden="true">
+    <canvas id="waves"></canvas>
+    <canvas id="prism"></canvas>
+    <div class="scrim"></div>
+    <div class="vignette"></div>
+    <div class="veil"></div>
+  </div>
+
+  <div class="site">
+    <main id="main">
+      <!-- Hero -->
+      <header class="hero">
+        <img class="hero-logo" src="assets/tirion-logo-white.svg" alt="Tirion Analytics" width="820" height="289">
+        <p class="hero-eyebrow">Intelligence for the modern company</p>
+        <h1 class="hero-title">Know what you earn. Staff with confidence.</h1>
+        <p class="lede hero-lede">Tirion Analytics builds live, interactive apps that create revenue forecasts, report on past profit, and ensure business efficiency.</p>
+        <a class="scroll-cue" href="#platforms" aria-label="Scroll to platforms"></a>
+      </header>
+
+      <!-- Platforms -->
+      <section class="platforms" id="platforms" aria-labelledby="platforms-title">
+        <div class="wrap">
+          <h2 id="platforms-title" class="reveal">Platforms designed specifically for your industry</h2>
+          <div class="tiles">
+            <a class="tile tile-fec reveal" href="fec.html" aria-label="Family Entertainment Centers: explore the platform">
+              <span class="tile-icon"><img src="assets/tirion-mark-white.svg" alt=""></span>
+              <div>
+                <p class="tile-title">Family Entertainment Centers</p>
+                <div class="tile-foot">
+                  <span class="tile-meta">Revenue · Forecast</span>
+                  <span class="tile-go" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+
+            <div class="tile tile-retail is-locked reveal" data-delay="1" role="group" aria-label="Retail: under construction">
+              <span class="tile-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></svg>
+              </span>
+              <div>
+                <p class="tile-title">Retail</p>
+                <div class="tile-foot"><span class="tile-chip">Under construction</span></div>
+              </div>
+            </div>
+
+            <div class="tile tile-restaurant is-locked reveal" data-delay="2" role="group" aria-label="Restaurant: under construction">
+              <span class="tile-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></svg>
+              </span>
+              <div>
+                <p class="tile-title">Restaurant</p>
+                <div class="tile-foot"><span class="tile-chip">Under construction</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Compliance -->
+      <section class="section" id="compliance" aria-labelledby="compliance-title" style="padding-top:0">
+        <div class="wrap">
+          <div class="section-head reveal" style="margin-bottom:0">
+            <div>
+              <p class="kicker">Trust &amp; compliance</p>
+              <h2 id="compliance-title">Built on trust.</h2>
+            </div>
+            <p class="lede">Clear terms, careful data handling, and an experience designed to be accessible to everyone.</p>
+          </div>
+          <nav class="doc-cards reveal" aria-label="Legal documents">
+            <a class="doc-card glass" href="compliance.html#terms">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+              <span>Terms of Service</span>
+            </a>
+            <a class="doc-card glass" href="compliance.html#privacy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span>Privacy Policy</span>
+            </a>
+            <a class="doc-card glass" href="compliance.html#security">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6Z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>
+              <span>Security &amp; Data Handling</span>
+            </a>
+            <a class="doc-card glass" href="compliance.html#accessibility">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="1.8"/><path d="M5 8.5c2.3.7 4.6 1 7 1s4.7-.3 7-1M12 9.5V14m0 0-3 7m3-7 3 7"/></svg>
+              <span>Accessibility Statement</span>
+            </a>
+            <a class="doc-card glass" href="compliance.html#cookies">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 12.6A8.8 8.8 0 1 1 11.4 3.2a3 3 0 0 0 3.6 3.6 3 3 0 0 0 3.6 3.6 3 3 0 0 0 2.2 2.2Z"/><path d="M8.5 10.5h.01M9.5 15.5h.01M14 14h.01"/></svg>
+              <span>Cookie Policy</span>
+            </a>
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div class="footer-brand">
+          <img src="assets/tirion-logo-white.svg" alt="Tirion Analytics" width="180" height="64">
+          <p>Live, interactive apps that create revenue forecasts, report on past profit, and ensure business efficiency.</p>
+        </div>
+        <div>
+          <h4>Platforms</h4>
+          <ul>
+            <li><a href="fec.html">Family Entertainment Centers</a></li>
+            <li><span class="footer-soon">Retail (coming soon)</span></li>
+            <li><span class="footer-soon">Restaurant (coming soon)</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="compliance.html#terms">Terms of Service</a></li>
+            <li><a href="compliance.html#privacy">Privacy Policy</a></li>
+            <li><a href="compliance.html#cookies">Cookie Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Trust</h4>
+          <ul>
+            <li><a href="compliance.html#security">Security &amp; Data Handling</a></li>
+            <li><a href="compliance.html#accessibility">Accessibility</a></li>
+            <li><a href="compliance.html">Compliance overview</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <span>&copy; 2026 Tirion Analytics. All rights reserved.</span>
+        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Pause background motion</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/background.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

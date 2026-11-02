@@ -1,0 +1,22 @@
+# Never commit secrets or credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.ppk
+id_rsa*
+id_ed25519*
+*credentials*
+*secret*
+*token*
+
+# Local and OS clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
+_reference.html
