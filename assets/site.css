@@ -572,3 +572,27 @@ a.tile:hover .tile-go { transform: translateX(4px) rotate(-45deg); }
   .legal-layout { grid-template-columns: 1fr; }
   .toc { position: static; }
 }
+
+/* ---------- Contact page ---------- */
+.contact-layout { padding-bottom: 120px; }
+.contact-form { max-width: 720px; display: grid; gap: 22px; }
+.field { display: grid; gap: 8px; }
+.field label { font-weight: 600; font-size: 15px; color: var(--ink); }
+.field input, .field textarea {
+  width: 100%; padding: 13px 16px; border-radius: 14px;
+  font: 400 16px/1.5 var(--font); color: var(--ink);
+  background: rgba(255, 255, 255, .05); border: 1px solid var(--line-2);
+  transition: border-color .2s, background .2s;
+}
+.field textarea { resize: vertical; min-height: 160px; }
+.field input:hover, .field textarea:hover { border-color: rgba(255, 255, 255, .35); }
+.field input:focus-visible, .field textarea:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-color: transparent; background: rgba(255, 255, 255, .08); }
+.field [aria-invalid="true"] { border-color: var(--rose); }
+.field-error { margin: 0; color: #ffb3c0; font-size: 14px; }
+.field-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.contact-actions .btn[disabled] { opacity: .6; cursor: progress; transform: none; }
+.contact-status { margin: 0; color: var(--ink-2); font-size: 15px; }
+.contact-status.is-ok { color: #fff; }
+.contact-status.is-error { color: #ffb3c0; }
+.doc p.contact-note { margin: 0; color: var(--ink-3); font-size: 14px; }

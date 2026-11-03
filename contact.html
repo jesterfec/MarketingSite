@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050711">
+  <title>Contact Us | Tirion Analytics</title>
+  <meta name="description" content="Send Tirion Analytics a question or comment.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css?v=3">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body class="page-legal" data-theme="blue">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="scene" aria-hidden="true">
+    <canvas id="waves"></canvas>
+    <canvas id="prism"></canvas>
+    <div class="scrim"></div>
+    <div class="vignette"></div>
+    <div class="veil"></div>
+  </div>
+
+  <div class="site">
+    <main id="main">
+      <section class="legal-hero">
+        <div class="wrap">
+          <a class="legal-logo" href="/"><img src="assets/tirion-logo-white.svg" alt="Tirion Analytics home" width="220" height="78"></a>
+          <p class="kicker">Get in touch</p>
+          <h1>Contact Us</h1>
+          <p class="lede">Questions about Tirion, your account, our policies, or accessibility? Send us a message and we will get back to you at the email address you provide.</p>
+        </div>
+      </section>
+
+      <div class="wrap contact-layout">
+        <form class="doc glass contact-form" action="/api/contact" method="post" data-contact-form novalidate>
+          <div class="field">
+            <label for="contact-email">Your email address</label>
+            <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="contact-email-error">
+            <p class="field-error" id="contact-email-error" hidden>Enter a valid email address.</p>
+          </div>
+
+          <div class="field">
+            <label for="contact-message">Comments</label>
+            <textarea id="contact-message" name="message" rows="7" required maxlength="5000" aria-describedby="contact-message-error"></textarea>
+            <p class="field-error" id="contact-message-error" hidden>Enter a message.</p>
+          </div>
+
+          <!-- Left empty by people; filled in by spam bots. -->
+          <div class="field-trap" aria-hidden="true">
+            <label for="contact-website">Website</label>
+            <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="contact-actions">
+            <button class="btn btn-primary" type="submit">Send message</button>
+            <p class="contact-status" role="status" aria-live="polite" data-contact-status></p>
+          </div>
+
+          <p class="contact-note">We use what you send only to respond to you. See our <a href="/compliance#privacy">Privacy Policy</a>.</p>
+        </form>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-grid">
+        <div class="footer-brand">
+          <img src="assets/tirion-logo-white.svg" alt="Tirion Analytics" width="180" height="64">
+          <p>Live, interactive apps that create revenue forecasts, report on past profit, and ensure business efficiency.</p>
+        </div>
+        <div>
+          <h4>Platforms</h4>
+          <ul>
+            <li><a href="/fec">Family Entertainment Centers</a></li>
+            <li><span class="footer-soon">Retail (coming soon)</span></li>
+            <li><span class="footer-soon">Restaurant (coming soon)</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/compliance#terms">Terms of Service</a></li>
+            <li><a href="/compliance#privacy">Privacy Policy</a></li>
+            <li><a href="/compliance#cookies">Cookie Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Trust</h4>
+          <ul>
+            <li><a href="/compliance#security">Security &amp; Data Handling</a></li>
+            <li><a href="/compliance#accessibility">Accessibility</a></li>
+            <li><a href="/">Home</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <span>&copy; 2026 Tirion Analytics. All rights reserved.</span>
+        <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false">Pause background motion</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/background.js?v=3"></script>
+  <script src="assets/site.js?v=3"></script>
+</body>
+</html>

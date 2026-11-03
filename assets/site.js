@@ -58,4 +58,51 @@
     }, { rootMargin: '-20% 0px -60% 0px' });
     byId.forEach((_, id) => { const el = document.getElementById(id); if (el) spy.observe(el); });
   }
+
+  // Contact form: check the fields, send them to /api/contact, and show the result in place.
+  // Without JavaScript the form posts normally and the server redirects back with ?sent or ?error.
+  const form = document.querySelector('[data-contact-form]');
+  if (form) {
+    const status = form.querySelector('[data-contact-status]');
+    const button = form.querySelector('button[type="submit"]');
+    const show = (text, kind) => { status.textContent = text; status.className = 'contact-status' + (kind ? ` is-${kind}` : ''); };
+    const fields = [
+      [form.elements.email, v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)],
+      [form.elements.message, v => v.length > 0],
+    ];
+    const params = new URLSearchParams(location.search);
+    if (params.has('sent')) show('Thanks, your message was sent.', 'ok');
+    if (params.has('error')) show('Sorry, your message could not be sent. Please try again.', 'error');
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      let firstBad = null;
+      fields.forEach(([input, valid]) => {
+        const ok = valid(input.value.trim());
+        input.setAttribute('aria-invalid', String(!ok));
+        document.getElementById(input.getAttribute('aria-describedby')).hidden = ok;
+        if (!ok && !firstBad) firstBad = input;
+      });
+      if (firstBad) { firstBad.focus(); show(''); return; }
+
+      button.disabled = true;
+      show('Sending…');
+      let code = 0;
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ email: form.elements.email.value.trim(), message: form.elements.message.value.trim(), website: form.elements.website.value }),
+        });
+        code = res.status;
+        if (!res.ok) throw new Error('send failed');
+        form.reset();
+        show('Thanks, your message was sent. We will reply to the email address you provided.', 'ok');
+      } catch {
+        show(code === 429 ? 'Too many messages in a short time. Please wait a minute and try again.' : 'Sorry, your message could not be sent. Please try again in a moment.', 'error');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
 })();
