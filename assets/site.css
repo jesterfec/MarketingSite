@@ -195,7 +195,7 @@ h3 { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; }
   font-size: clamp(24px, 3vw, 38px); line-height: 1.18; font-weight: 500; letter-spacing: -.02em;
   text-shadow: 0 2px 30px rgba(3, 5, 14, .9);
 }
-.hero-lede { margin: 18px auto 0; max-width: 52ch; text-align: center; text-shadow: 0 2px 24px rgba(3, 5, 14, .9); }
+.hero-lede { margin: 18px auto 0; max-width: 52ch; text-align: center; text-shadow: 0 1px 3px rgba(3, 5, 14, .55), 0 2px 24px rgba(3, 5, 14, .95); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 36px; }
 .hero .btn-ghost { background: rgba(5, 8, 20, .5); }
 .scroll-cue {
