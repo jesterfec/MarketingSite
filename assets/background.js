@@ -4,6 +4,8 @@
  * run on their own canvases; the shaders and visual settings are unchanged.
  * Added: a shared, user-controllable pause (window.TirionMotion) so the moving
  * background can be stopped (WCAG 2.2.2), defaulting to paused for reduced motion.
+ * Blue theme from tirion-blue-prism-waves-touch-beams.html: brighter palette and
+ * brief light pulses that run along the tapped wave line.
  */
 (() => {
   'use strict';
@@ -26,12 +28,14 @@
   // Palettes from the supplied backgrounds. Blue is the site default; <body data-theme="white"> opts back in to white.
   const THEMES = {
     white: {
-      waves: { colors: ['#ffffff', '#ffffff', '#ffffff'], opacity: 0.61 },
-      prism: ['#ffffff', '#fcfdff', '#edf5ff']
+      waves: { colors: ['#ffffff', '#ffffff', '#ffffff'], opacity: 0.61, glow: 0.88, brightness: 1.22 },
+      prism: { colors: ['#ffffff', '#fcfdff', '#edf5ff'], glow: 1, saturation: 1.5 },
+      beams: false
     },
     blue: {
-      waves: { colors: ['#123dbb', '#0026ff', '#65beff'], opacity: 1 },
-      prism: ['#06105e', '#0026ff', '#9bdcff']
+      waves: { colors: ['#1b56ff', '#2f7dff', '#b5e2ff'], opacity: 1, glow: 1.18, brightness: 1.48 },
+      prism: { colors: ['#0e39ff', '#2f7dff', '#d8f0ff'], glow: 1.24, saturation: 1.75 },
+      beams: true
     }
   };
   const theme = THEMES[document.body.dataset.theme] || THEMES.blue;
@@ -42,6 +46,7 @@
   (() => {
     // Original LineWaves shader retained verbatim; only its color/speed/input settings change.
     const MAX_RIPPLES = 4;
+    const MAX_TOUCH_BEAMS = 6;
     const PIXEL_BUDGET = 2.4e6;
     const VERTEX = `#version 300 es
 const vec2 corners[3] = vec2[3](vec2(-1.0, -1.0), vec2(3.0, -1.0), vec2(-1.0, 3.0));
@@ -69,6 +74,8 @@ uniform float uCycle;
 uniform float uEdge;
 uniform vec4 uMouse;
 uniform vec4 uRipples[${MAX_RIPPLES}];
+uniform vec4 uBeams[${MAX_TOUCH_BEAMS}];
+uniform float uRealTime;
 uniform float uReveal;
 uniform float uLight;
 uniform float uOpacity;
@@ -188,8 +195,35 @@ void main() {
     return;
   }
 
+  // Each touch launches a small pair of electric-blue light fronts along one
+  // existing contour. Using phi (the same warped coordinate as the line shader)
+  // makes the light adhere to the moving, curved rays instead of drawing an
+  // unrelated straight line over them. Only recent touches are active.
+  float touchBeam = 0.0;
+  for (int i = 0; i < ${MAX_TOUCH_BEAMS}; i++) {
+    vec4 beam = uBeams[i]; // field x, line index, real-time birth, enabled
+    if (beam.w < 0.5) continue;
+    float age = uRealTime - beam.z;
+    if (age < 0.0 || age > 2.35) continue;
+
+    float traveled = age * 0.92;
+    float along = abs(p.x - beam.x);
+    float head = exp(-pow((along - traveled) / 0.092, 2.0));
+    float behind = max(0.0, traveled - along);
+    float tail = smoothstep(0.0, 0.08, behind) * exp(-behind / 0.30);
+    float progress = max(head, tail * 0.58);
+    float life = 1.0 - smoothstep(1.45, 2.35, age);
+    float onRay = exp(-pow((phi - beam.y) / max(0.34, fw * 1.2), 2.0));
+    float spill = 0.16 * exp(-pow((phi - beam.y) / 1.65, 2.0));
+    touchBeam = max(touchBeam, (onRay + spill) * progress * life);
+  }
+
   float strength = (cover + halo) * thread * light * uBrightness * reveal * edge;
   vec3 color = clamp(tint * strength * uOpacity, 0.0, 1.0);
+  // Glow follows the existing strands, with a very short, soft luminous trail.
+  float onLine = clamp(cover + halo * 0.36, 0.0, 1.0);
+  vec3 beamBlue = vec3(0.18, 0.57, 1.0);
+  color = clamp(color + beamBlue * touchBeam * onLine * 0.85 * reveal * edge, 0.0, 1.0);
   float alpha = max(color.r, max(color.g, color.b));
   color = clamp(color + grain, 0.0, 1.0);
   fragColor = vec4(min(color, vec3(alpha)), alpha);
@@ -204,8 +238,8 @@ void main() {
       colorCycleSpeed: 1,
       lineCount: 96,
       lineWidth: 1.3,
-      glow: 0.88,
-      brightness: 1.22,
+      glow: theme.waves.glow,
+      brightness: theme.waves.brightness,
       highlight: 1,
       highlightWidth: 1,
       warpIntensity: 1,
@@ -279,6 +313,43 @@ void main() {
     let raf = 0;
     let lost = false;
     const noRipples = new Float32Array(MAX_RIPPLES * 4);
+    const beams = new Float32Array(MAX_TOUCH_BEAMS * 4);
+    let beamSlot = 0;
+    let realTime = performance.now() * 0.001;
+
+    // The exact warp used by the shader is mirrored here to lock a new
+    // light pulse to whichever visible wave contour was tapped.
+    function waveBend(px, py, t) {
+      const qx = px * 2 / settings.warpScale;
+      const qy = py * 2 / settings.warpScale;
+      let w = 0.6 * Math.sin(qx * 0.55 + t * 0.4 + 0.6 * Math.sin(qy * 0.9 - t * 0.28));
+      w += 0.21 * Math.sin(qx * 1.3 - t * 0.33 + qy * 0.8 + 1.3);
+      w += 0.12 * Math.sin(qy * 2.3 + qx * 0.9 - t * 0.37 + 0.4);
+      const easing = 1 - Math.pow(1 - reveal, 3);
+      return w * settings.warpIntensity * (0.25 + 0.75 * easing) * settings.warpScale * 0.46;
+    }
+
+    // The scene ignores pointer events so the page stays clickable; taps are read from the window instead.
+    function onTouchStart(event) {
+      if (motion.paused || event.button > 0) return;
+      const localX = event.clientX / window.innerWidth;
+      const localY = 1 - event.clientY / window.innerHeight;
+      if (localX < 0 || localX > 1 || localY < 0 || localY > 1) return;
+
+      const nx = (localX - 0.5) * canvas.width / canvas.height;
+      const ny = localY - 0.5;
+      const angle = settings.rotation * Math.PI / 180;
+      const px = nx * Math.cos(angle) - ny * Math.sin(angle);
+      const py = nx * Math.sin(angle) + ny * Math.cos(angle);
+      const index = Math.round((py + waveBend(px, py, time)) * settings.lineCount);
+      const i = (beamSlot++ % MAX_TOUCH_BEAMS) * 4;
+      beams[i] = px;
+      beams[i + 1] = index;
+      beams[i + 2] = performance.now() * 0.001;
+      beams[i + 3] = 1;
+      // New touches are picked up on the next normal animation frame.
+    }
+    if (theme.beams) window.addEventListener('pointerdown', onTouchStart, { passive: true });
 
     function resize() {
       const w = Math.max(1, window.innerWidth);
@@ -319,6 +390,9 @@ void main() {
       gl.uniform3fv(u.uColor3, colors[2]);
       sf('uCycle', cycle);
       sf('uEdge', settings.edgeFade);
+      sf('uRealTime', realTime);
+      if (u.uBeams !== undefined && u.uBeams !== null)
+        gl.uniform4fv(u.uBeams, beams);
       gl.uniform4f(u.uMouse, 0, 0, 0, 0.2);  // Mouse influence disabled.
       if (u.uRipples !== undefined && u.uRipples !== null)
         gl.uniform4fv(u.uRipples, noRipples);  // Click ripples disabled.
@@ -333,6 +407,7 @@ void main() {
       if (lost || document.hidden) return;
       const dt = previous === null ? 0 : Math.min(0.05, Math.max(0, (now - previous) / 1000));
       previous = now;
+      realTime = now * 0.001;
       if (!motion.paused) {
         time += dt * settings.speed * 2.5;
         cycle += dt * settings.speed * settings.colorCycleSpeed * 0.05;
@@ -527,10 +602,10 @@ void main() {
     // The source's default prism proportions, rotation and timing are retained.
     // Themed palette; mouse interactivity remains disabled.
     const settings = {
-      height:3.5, baseWidth:5.5, animationType:'rotate', glow:1,
+      height:3.5, baseWidth:5.5, animationType:'rotate', glow:theme.prism.glow,
       offsetX:0, offsetY:0, noise:0, scale:3.6, hueShift:0,
-      colorFrequency:1, colors:theme.prism,
-      saturation:1.5, timeScale:0.1,
+      colorFrequency:1, colors:theme.prism.colors,
+      saturation:theme.prism.saturation, timeScale:0.1,
       interactive:false, intro:true, resolution:0.5, lightMode:false
     };
 

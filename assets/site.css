@@ -83,18 +83,22 @@ a { color: inherit; }
 }
 .page-legal .scene .veil { opacity: .58; }
 
-/* Blue theme (FEC page), from tirion-blue-prism-and-bright-blue-waves-combined.html */
+/* Blue theme (all pages), from tirion-blue-prism-waves-touch-beams.html */
 [data-theme="blue"] .scene {
   background:
-    radial-gradient(ellipse 68% 62% at 49% 50%, rgba(12, 38, 100, .33) 0%, transparent 75%),
-    linear-gradient(135deg, #030611 0%, #080d22 49%, #040715 100%);
+    radial-gradient(ellipse 68% 62% at 49% 50%, rgba(18, 72, 255, .44) 0%, transparent 74%),
+    radial-gradient(ellipse 58% 48% at 52% 55%, rgba(68, 156, 255, .18) 0%, transparent 76%),
+    linear-gradient(135deg, #020611 0%, #07153a 46%, #041128 100%);
+}
+[data-theme="blue"] .scene .vignette {
+  background: radial-gradient(ellipse 83% 82% at 50% 49%, transparent 44%, rgba(1, 8, 26, .32) 100%);
 }
 [data-theme="blue"] #waves {
-  opacity: .74;
+  opacity: .86;
   -webkit-mask-image: radial-gradient(ellipse 55% 70% at 50% 50%, rgba(0,0,0,.17) 0%, rgba(0,0,0,.33) 29%, rgba(0,0,0,.70) 67%, #000 100%);
           mask-image: radial-gradient(ellipse 55% 70% at 50% 50%, rgba(0,0,0,.17) 0%, rgba(0,0,0,.33) 29%, rgba(0,0,0,.70) 67%, #000 100%);
 }
-[data-theme="blue"] #prism { opacity: .8; }
+[data-theme="blue"] #prism { opacity: 1; }
 
 .site { position: relative; z-index: 1; }
 
