@@ -92,16 +92,25 @@
         const res = await fetch(form.action, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ email: form.elements.email.value.trim(), message: form.elements.message.value.trim(), website: form.elements.website.value }),
+          body: JSON.stringify({
+            email: form.elements.email.value.trim(),
+            message: form.elements.message.value.trim(),
+            website: form.elements.website.value,
+            'cf-turnstile-response': form.elements['cf-turnstile-response']?.value || '',
+          }),
         });
         code = res.status;
         if (!res.ok) throw new Error('send failed');
         form.reset();
         show('Thanks, your message was sent. We will reply to the email address you provided.', 'ok');
       } catch {
-        show(code === 429 ? 'Too many messages in a short time. Please wait a minute and try again.' : 'Sorry, your message could not be sent. Please try again in a moment.', 'error');
+        show(code === 429 ? 'Too many messages in a short time. Please wait a minute and try again.'
+          : code === 403 ? 'Please complete the verification check above, then send again.'
+          : 'Sorry, your message could not be sent. Please try again in a moment.', 'error');
       } finally {
         button.disabled = false;
+        // Each Turnstile token works once, so get a fresh one for the next send.
+        window.turnstile?.reset();
       }
     });
   }

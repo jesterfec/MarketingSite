@@ -594,6 +594,7 @@ a.tile:hover .tile-go { transform: translateX(4px) rotate(-45deg); }
 .field [aria-invalid="true"] { border-color: var(--rose); }
 .field-error { margin: 0; color: #ffb3c0; font-size: 14px; }
 .field-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.cf-turnstile { min-height: 65px; } /* Holds the widget's space so the button doesn't jump when it loads. */
 .contact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
 .contact-actions .btn[disabled] { opacity: .6; cursor: progress; transform: none; }
 .contact-status { margin: 0; color: var(--ink-2); font-size: 15px; }

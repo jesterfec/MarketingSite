@@ -7,7 +7,7 @@
   <title>Contact Us | Tirion Analytics</title>
   <meta name="description" content="Send Tirion Analytics a question or comment.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/site.css?v=6">
+  <link rel="stylesheet" href="assets/site.css?v=7">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="page-legal" data-theme="blue">
@@ -51,6 +51,9 @@
             <label for="contact-website">Website</label>
             <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
           </div>
+
+          <!-- Cloudflare Turnstile spam check; usually passes on its own without a puzzle. -->
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAF9BDXmv4wA5AN0O" data-theme="dark"></div>
 
           <div class="contact-actions">
             <button class="btn btn-primary" type="submit">Send message</button>
@@ -101,6 +104,7 @@
   </div>
 
   <script src="assets/background.js?v=4"></script>
-  <script src="assets/site.js?v=4"></script>
+  <script src="assets/site.js?v=5"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
